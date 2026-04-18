@@ -1,0 +1,47 @@
+/* ESTILOS BARRA LATERAL */
+
+.lateral {
+  grid-area: lateral;
+
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  width: 250px;
+  opacity: 0.8;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition: opacity 250ms ease, visibility 250ms ease;
+}
+
+.lateral.open {  
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+}
+
+.lateral.closed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+}
+
+.boton-lateral {
+  position: fixed;
+  top: 12px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background-color: #000;
+  color: #e9dedc;
+  border: solid 2px rgb(255, 135, 87);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+

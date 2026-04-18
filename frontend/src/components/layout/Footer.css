@@ -1,0 +1,9 @@
+/* ESTILOS PIE DE PÁGINA */
+
+.footer {
+  grid-area: footer;
+  background-color: #ece9e7;
+  text-align: left;
+  padding: 1.5rem;
+}
+

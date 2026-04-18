@@ -1,0 +1,66 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Usuario {
+  id              Int        @id @default(autoincrement())
+  email           String     @unique
+  password        String
+  nombre          String
+  apellido1       String
+  apellido2       String
+  fechaNacimiento DateTime
+  edad            Int?
+  pais            String     @default("ES")
+  idioma          String     @default("es")
+  rol             String     @default("user")
+  verificado      Boolean    @default(false)
+  activo          Boolean    @default(true)
+  fechaRegistro   DateTime   @default(now())
+  ultimoLogin     DateTime?
+  perfiles        Perfil[]
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model Perfil {
+  id            Int          @id @default(autoincrement())
+  nombrePerfil  String
+  avatar        String?      @default("")
+  esInfantil    Boolean      @default(false)
+  idiomaPerfil  String       @default("es")
+  fechaCreacion DateTime     @default(now())
+
+  usuario       Usuario      @relation(fields: [usuarioId], references: [id])
+  usuarioId     Int
+
+  favoritos     Favorito[]
+  historial     Historial[]
+  preferencias  Preferencia[]
+}
+
+model Favorito {
+  id        Int     @id @default(autoincrement())
+  tmdbId    Int
+  perfil    Perfil  @relation(fields: [perfilId], references: [id])
+  perfilId  Int
+}
+
+model Historial {
+  id        Int     @id @default(autoincrement())
+  tmdbId    Int
+  progreso  Int
+  perfil    Perfil  @relation(fields: [perfilId], references: [id])
+  perfilId  Int
+}
+
+model Preferencia {
+  id        Int     @id @default(autoincrement())
+  genero    String
+  perfil    Perfil  @relation(fields: [perfilId], references: [id])
+  perfilId  Int
+}

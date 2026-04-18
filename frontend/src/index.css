@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ESTILOS GENERALES */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: #e9dedc;
+  color: #07aac0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6, p, li, a, img {
+  user-select: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+
+
+
+

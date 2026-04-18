@@ -1,0 +1,30 @@
+/* ESTILOS PLANTILLA */
+
+.layout {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+
+  grid-template-columns: 0.4fr 1fr 1fr 250px;
+  grid-template-rows: 70px 50px 1fr 70px;
+
+  grid-template-areas:
+    "header nav nav nav"
+    "content content content lateral"
+    "content content content lateral"
+    "footer footer footer footer";
+}
+
+.content {
+  grid-area: content;
+  background: #e9dedc;
+  padding: 50px;
+}
+
+@media (max-width: 1085px) {
+  .content {
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+  }
+}
