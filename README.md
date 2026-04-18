@@ -38,15 +38,15 @@ cd unyona
 
 ## Estructura del proyecto:
 
-unyona/
- ├── frontend/    → React + Vite + Tailwind
- ├── backend/     → Express + Prisma + SQL
+unyona/\n
+ ├── frontend/    → React + Vite + Tailwind\n
+ ├── backend/     → Express + Prisma + SQL\n
  └── package.json → Orquestador para desarrollo
 
  ---
 
 ## 3. Configuración del Backend
-Entrar en la carpeta backend:
+## Entrar en la carpeta backend:
 
 bash
 cd backend
@@ -61,10 +61,14 @@ JWT_SECRET=clave_super_secreta
 ## Si prefieres SQLite en desarrollo:
 
 DATABASE_URL="file:./dev.db"
-Generar cliente Prisma:
+
+## Generar cliente Prisma:
+
 bash
 npx prisma generate
-Crear la base de datos y aplicar migraciones:
+
+## Crear la base de datos y aplicar migraciones:
+
 bash
 npx prisma migrate dev
 
@@ -78,18 +82,19 @@ cd ../frontend
 npm install
 
 ## Crear archivo .env:
+
 VITE_API_URL=http://localhost:5000
 
 ---
 
 ## 5. Arranque de la aplicación
-Desde la carpeta raíz:
+## Desde la carpeta raíz:
 
 bash
 npm install
 npm run dev
 
-Esto iniciará:
+## Esto iniciará:
 
 Frontend → http://localhost:5173
 
@@ -98,43 +103,48 @@ Backend → http://localhost:5000
 ---
 
 ## 6. Funcionamiento general
-Acceso sin sesión:
+## Acceso sin sesión:
+
 Landing pública
 
 Registro o login
 
-Registro:
+## Registro:
+
 Se crea el usuario en SQL mediante Prisma
 
 Se genera un token JWT
 
 El frontend lo almacena en localStorage
 
-Login:
+## Login:
+
 Validación de credenciales
 
 Generación de token
 
 Redirección a zona autenticada
 
-Perfiles:
+## Perfiles:
+
 Cada usuario puede crear varios perfiles
 
 Cada perfil puede tener avatar, modo infantil, etc.
 
-Sesión:
+## Sesión:
+
 Mientras exista el token, el usuario permanece autenticado
 
 ---
 
 ## 7. Base de datos
-Motor SQL mediante Prisma:
+## Motor SQL mediante Prisma:
 
 PostgreSQL (recomendado para producción)
 
 SQLite (ideal para desarrollo local)
 
-Tablas principales:
+## Tablas principales:
 
 Usuario
 
@@ -149,7 +159,8 @@ Preferencia
 ---
 
 ## 8. Tecnologías utilizadas
-Frontend:
+## Frontend:
+
 React
 
 TypeScript
@@ -160,7 +171,8 @@ Tailwind CSS
 
 React Router
 
-Backend:
+## Backend:
+
 Node.js
 
 Express
@@ -176,7 +188,7 @@ bcrypt
 ---
 
 ## 9. Notas finales
-Proyecto preparado para futuras ampliaciones:
+## Proyecto preparado para futuras ampliaciones:
 
 Sistema social para eventos
 
