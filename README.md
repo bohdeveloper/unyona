@@ -30,31 +30,36 @@ Antes de comenzar, asegúrate de tener instalado:
 
 Clonar el repositorio:
 
-```bash
+bash
 git clone <URL_DEL_REPOSITORIO>
 cd unyona
-Estructura del proyecto:
 
-Código
+---
+
+## Estructura del proyecto:
+
 unyona/
  ├── frontend/    → React + Vite + Tailwind
  ├── backend/     → Express + Prisma + SQL
  └── package.json → Orquestador para desarrollo
-3. Configuración del Backend
+
+ ---
+
+## 3. Configuración del Backend
 Entrar en la carpeta backend:
 
 bash
 cd backend
 npm install
-Crear archivo .env:
 
-Código
+## Crear archivo .env:
+
 PORT=5000
 DATABASE_URL="postgresql://usuario:password@localhost:5432/unyona?schema=public"
 JWT_SECRET=clave_super_secreta
-Si prefieres SQLite en desarrollo:
 
-Código
+## Si prefieres SQLite en desarrollo:
+
 DATABASE_URL="file:./dev.db"
 Generar cliente Prisma:
 bash
@@ -62,29 +67,37 @@ npx prisma generate
 Crear la base de datos y aplicar migraciones:
 bash
 npx prisma migrate dev
-4. Configuración del Frontend
-Entrar en la carpeta frontend:
+
+---
+
+## 4. Configuración del Frontend
+## Entrar en la carpeta frontend:
 
 bash
 cd ../frontend
 npm install
-Crear archivo .env:
 
-Código
+## Crear archivo .env:
 VITE_API_URL=http://localhost:5000
-5. Arranque de la aplicación
+
+---
+
+## 5. Arranque de la aplicación
 Desde la carpeta raíz:
 
 bash
 npm install
 npm run dev
+
 Esto iniciará:
 
 Frontend → http://localhost:5173
 
 Backend → http://localhost:5000
 
-6. Funcionamiento general
+---
+
+## 6. Funcionamiento general
 Acceso sin sesión:
 Landing pública
 
@@ -112,7 +125,9 @@ Cada perfil puede tener avatar, modo infantil, etc.
 Sesión:
 Mientras exista el token, el usuario permanece autenticado
 
-7. Base de datos
+---
+
+## 7. Base de datos
 Motor SQL mediante Prisma:
 
 PostgreSQL (recomendado para producción)
@@ -131,7 +146,9 @@ Historial
 
 Preferencia
 
-8. Tecnologías utilizadas
+---
+
+## 8. Tecnologías utilizadas
 Frontend:
 React
 
@@ -156,7 +173,9 @@ JWT
 
 bcrypt
 
-9. Notas finales
+---
+
+## 9. Notas finales
 Proyecto preparado para futuras ampliaciones:
 
 Sistema social para eventos
@@ -170,6 +189,8 @@ Seguidores
 Subida de contenido
 
 Notificaciones
+
+---
 
 El backend expone una API REST modular y escalable.
 
