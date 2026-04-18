@@ -38,9 +38,9 @@ cd unyona
 
 ## Estructura del proyecto:
 
-unyona/\n
- ├── frontend/    → React + Vite + Tailwind\n
- ├── backend/     → Express + Prisma + SQL\n
+unyona/<br>
+ ├── frontend/    → React + Vite + Tailwind<br>
+ ├── backend/     → Express + Prisma + SQL<br>
  └── package.json → Orquestador para desarrollo
 
  ---
