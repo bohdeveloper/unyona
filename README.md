@@ -53,14 +53,19 @@ cd backend
 npm install
 
 ## Crear archivo .env:
+## PostgreSQL (producción o entornos avanzados)
 
 PORT=5000
 DATABASE_URL="postgresql://usuario:password@localhost:5432/unyona?schema=public"
 JWT_SECRET=clave_super_secreta
 
-## Si prefieres SQLite en desarrollo:
+## SQLite (desarrollo local recomendado)
 
+PORT=5000
 DATABASE_URL="file:./dev.db"
+JWT_SECRET=clave_super_secreta
+
+Prisma detecta automáticamente el motor según la URL.
 
 ## Generar cliente Prisma:
 
@@ -69,8 +74,40 @@ npx prisma generate
 
 ## Crear la base de datos y aplicar migraciones:
 
+## PostgreSQL:
+
 bash
 npx prisma migrate dev
+
+## SQLite:
+
+bash
+npx prisma db push
+
+## Alternar entre SQLite y PostgreSQL
+
+Puedes cambiar de motor sin modificar el código, solo cambiando DATABASE_URL en .env.
+
+## ✔ Usar SQLite (desarrollo)
+
+DATABASE_URL="file:./dev.db"
+Crear base:
+
+bash
+npx prisma db push
+
+## ✔ Usar PostgreSQL (producción)
+
+DATABASE_URL="postgresql://usuario:password@localhost:5432/unyona?schema=public"
+Aplicar migraciones:
+
+bash
+npx prisma migrate deploy
+
+## ✔ Regenerar cliente Prisma (obligatorio al cambiar de motor)
+
+bash
+npx prisma generate
 
 ---
 

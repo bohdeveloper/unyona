@@ -1,9 +1,10 @@
+import "dotenv/config";
 import { app } from "./app";
-import { connectDB } from "./config/db";
+
+console.log("DATABASE_URL server.ts:", process.env.DATABASE_URL);
+console.log("CWD REAL:", process.cwd());
 
 const PORT = process.env.PORT || 5000;
-
-connectDB();
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en puerto ${PORT}`);

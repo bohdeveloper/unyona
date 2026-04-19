@@ -15,7 +15,10 @@
 # ✅Seleccionar un perfil de usuario
 
 # ✅Ajustar estetica unyona
-# Enganchar BBDD y visualizarla en un IDE
+
+# ---- Primero para conseguir enganchar la BBDD de SQLite solucionar problemas con PrismaClient:
+# ---- Enganchar BBDD y visualizarla en un IDE
+
 # Poner imagen de perfil en el botón sidebar + nombre al seleccionar el perfil
 
 # Proteger urls sin acceso + carga de imagenes (no se pueda acceder a páginas sin token)

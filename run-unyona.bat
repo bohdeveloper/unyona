@@ -15,6 +15,22 @@ set FRONTEND_DIR=%UNYONA_DIR%\frontend
 set BACKEND_DIR=%UNYONA_DIR%\backend
 
 :: ------------------------------------------------------------
+:: INSTALANDO SQLITE SI NO EXISTE
+:: ------------------------------------------------------------
+
+echo Comprobando base de datos SQLite...
+
+cd /d "%BACKEND_DIR%"
+
+if not exist "dev.db" (
+    echo No existe dev.db, creando base de datos SQLite...
+    call npx prisma db push
+) else (
+    echo Base de datos SQLite OK.
+)
+echo.
+
+:: ------------------------------------------------------------
 :: INSTALAR DEPENDENCIAS SI FALTAN
 :: ------------------------------------------------------------
 echo Comprobando dependencias del frontend...
@@ -85,9 +101,12 @@ echo.
 :: ------------------------------------------------------------
 :: INICIAR UNYONA (npm run dev en el root)
 :: ------------------------------------------------------------
-echo Iniciando Unyona (npm run dev)...
-start "Unyona" cmd.exe /k "cd /d %UNYONA_DIR% && npm run dev"
-echo.
+echo Iniciando Backend...
+start "Unyona Backend" cmd.exe /k "cd /d %BACKEND_DIR% && npm run dev"
+
+echo Iniciando Frontend...
+start "Unyona Frontend" cmd.exe /k "cd /d %FRONTEND_DIR% && npm run dev"
+
 echo ================================
 echo Todo listo. Unyona esta en marcha.
 echo ================================

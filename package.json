@@ -2,7 +2,7 @@
   "name": "unyona",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\""
+    "dev": "concurrently \"npm --prefix frontend run dev\" \"npm --prefix backend run dev\""
   },
   "version": "1.0.0",
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
