@@ -1,42 +1,59 @@
-# UNYONA – Plataforma Social para Eventos
 
-UNYONA es una aplicación web en desarrollo orientada a la gestión social de eventos.  
-Incluye:
 
-- Registro y login de usuarios  
-- Perfiles por usuario  
-- Autenticación mediante JWT  
-- Backend con Express + TypeScript  
-- Base de datos SQL mediante Prisma (PostgreSQL o SQLite)  
-- Frontend con React + Vite + Tailwind  
+# UNYONA — Plataforma Social para Interacciones Reales
 
-> **Estado del proyecto:**  
-> Esta versión actúa como base técnica para el desarrollo de la plataforma final.
+UNYONA es una aplicación web en desarrollo orientada a la construcción de **relaciones sociales reales**, comunidades locales y encuentros presenciales, mediante un sistema flexible de **usuarios y perfiles**.
 
----
+A diferencia de redes sociales tradicionales, Unyona se centra en:
+- Identidades sociales mediante perfiles
+- Interacciones humanas naturales
+- Actividad local y proximidad geográfica
+- Transición del entorno digital al mundo real
 
-## 1. Requisitos previos
-
-Antes de comenzar, asegúrate de tener instalado:
-
-- Node.js (v18 o superior)  
-- npm  
-- PostgreSQL **o** SQLite  
-- Git  
+El proyecto parte de una base técnica sólida y está diseñado para evolucionar progresivamente hacia una plataforma social completa.
 
 ---
 
-## 2. Descarga del proyecto
+## Estado del proyecto
 
-Clonar el repositorio:
-
-bash
-git clone <URL_DEL_REPOSITORIO>
-cd unyona
+Fase actual: Base técnica completada  
+Siguiente fase: Fase 1 — Seguridad, sesión y experiencia base
 
 ---
 
-## Estructura del proyecto:
+## Visión del proyecto
+
+### Usuarios y perfiles
+
+Un **usuario** representa una cuenta (autenticación, control y seguridad).  
+Un usuario puede crear **uno o varios perfiles**, que son las identidades sociales reales dentro de la plataforma.
+
+Los perfiles:
+- Tienen nombre, avatar y biografía
+- Están asociados a un contexto o zona
+- Poseen intereses propios
+- Interactúan con otros perfiles
+
+Las interacciones en Unyona **siempre ocurren entre perfiles**, no entre cuentas.  
+Este enfoque permite separar contextos, mejorar la privacidad y fomentar relaciones más naturales.
+
+---
+
+### Usuarios de organización
+
+Además de usuarios personales, Unyona contempla un **usuario de tipo organización**, orientado a:
+- Crear y gestionar grupos
+- Organizar quedadas y eventos
+- Lanzar campañas o actividades lucrativas
+- Administrar comunidades o espacios temáticos
+
+Estos usuarios actúan mediante **entidades o secciones públicas**, no como perfiles personales.
+
+---
+
+## Arquitectura actual
+
+### Estructura del proyecto
 
 unyona/<br>
  ├── frontend/    → React + Vite + Tailwind<br>
@@ -44,203 +61,135 @@ unyona/<br>
  └── package.json → Orquestador para desarrollo
 
  ---
+---
 
-## 3. Configuración del Backend
-## Entrar en la carpeta backend:
+## Funcionalidades implementadas
 
-bash
-cd backend
-npm install
+### Backend
+- Registro y login de usuarios
+- Autenticación mediante JWT
+- Middleware de protección (`authMiddleware`)
+- Modelo Usuario
+- Modelo Perfil (1 Usuario → N Perfiles)
+- CRUD completo de perfiles
+- Subida y gestión de imagen de perfil
+- Base de datos PostgreSQL gestionada con Prisma
+- API REST modular y escalable
 
-## Crear archivo .env:
-## PostgreSQL (producción o entornos avanzados)
-
-PORT=5000
-DATABASE_URL="postgresql://usuario:password@localhost:5432/unyona?schema=public"
-JWT_SECRET=clave_super_secreta
-
-## SQLite (desarrollo local recomendado)
-
-PORT=5000
-DATABASE_URL="file:./dev.db"
-JWT_SECRET=clave_super_secreta
-
-Prisma detecta automáticamente el motor según la URL.
-
-## Generar cliente Prisma:
-
-bash
-npx prisma generate
-
-## Crear la base de datos y aplicar migraciones:
-
-## PostgreSQL:
-
-bash
-npx prisma migrate dev
-
-## SQLite:
-
-bash
-npx prisma db push
-
-## Alternar entre SQLite y PostgreSQL
-
-Puedes cambiar de motor sin modificar el código, solo cambiando DATABASE_URL en .env.
-
-## ✔ Usar SQLite (desarrollo)
-
-DATABASE_URL="file:./dev.db"
-Crear base:
-
-bash
-npx prisma db push
-
-## ✔ Usar PostgreSQL (producción)
-
-DATABASE_URL="postgresql://usuario:password@localhost:5432/unyona?schema=public"
-Aplicar migraciones:
-
-bash
-npx prisma migrate deploy
-
-## ✔ Regenerar cliente Prisma (obligatorio al cambiar de motor)
-
-bash
-npx prisma generate
+### Frontend
+- React + TypeScript + Vite
+- Gestión de sesión mediante Context API
+- Flujos de registro y login funcionales
+- Selección de perfil activo
+- Estética base del proyecto
 
 ---
 
-## 4. Configuración del Frontend
-## Entrar en la carpeta frontend:
+## Tecnologías utilizadas
 
-bash
-cd ../frontend
-npm install
+### Frontend
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
 
-## Crear archivo .env:
-
-VITE_API_URL=http://localhost:5000
-
----
-
-## 5. Arranque de la aplicación
-## Desde la carpeta raíz:
-
-bash
-npm install
-npm run dev
-
-## Esto iniciará:
-
-Frontend → http://localhost:5173
-
-Backend → http://localhost:5000
+### Backend
+- Node.js
+- Express
+- TypeScript
+- Prisma ORM (PostgreSQL)
+- JWT
+- bcrypt
 
 ---
 
-## 6. Funcionamiento general
-## Acceso sin sesión:
+## Requisitos previos
 
-Landing pública
-
-Registro o login
-
-## Registro:
-
-Se crea el usuario en SQL mediante Prisma
-
-Se genera un token JWT
-
-El frontend lo almacena en localStorage
-
-## Login:
-
-Validación de credenciales
-
-Generación de token
-
-Redirección a zona autenticada
-
-## Perfiles:
-
-Cada usuario puede crear varios perfiles
-
-Cada perfil puede tener avatar, modo infantil, etc.
-
-## Sesión:
-
-Mientras exista el token, el usuario permanece autenticado
+Antes de comenzar, asegúrate de tener instalado:
+- Node.js v18 o superior
+- npm
+- PostgreSQL
+- Git
 
 ---
 
-## 7. Base de datos
-## Motor SQL mediante Prisma:
+## Instalación y arranque
 
-PostgreSQL (recomendado para producción)
+### Clonar el repositorio
 
-SQLite (ideal para desarrollo local)
-
-## Tablas principales:
-
-Usuario
-
-Perfil
-
-Favorito
-
-Historial
-
-Preferencia
+```bash
+git clone <URL_DEL_REPOSITORIO>
+cd unyona
+```
 
 ---
 
-## 8. Tecnologías utilizadas
-## Frontend:
+### Configuración y arranque en desarrollo
 
-React
+El proyecto incluye un **launcher automatizado** que realiza:
+- Instalación de dependencias
+- Creación del archivo `.env` desde `.env.example`
+- Uso forzado de Prisma estable (v5)
+- Generación del cliente Prisma
+- Ejecución de migraciones
+- Arranque de frontend y backend
 
-TypeScript
-
-Vite
-
-Tailwind CSS
-
-React Router
-
-## Backend:
-
-Node.js
-
-Express
-
-TypeScript
-
-Prisma ORM
-
-JWT
-
-bcrypt
+Para iniciar el entorno de desarrollo:
+run-unyona.bat
 
 ---
 
-## 9. Notas finales
-## Proyecto preparado para futuras ampliaciones:
+## Funcionamiento general
 
-Sistema social para eventos
+### Acceso sin sesión
+- Landing pública
+- Registro o login
 
-Perfiles públicos
+### Autenticación
+- Generación de token JWT
+- Persistencia de sesión en frontend
+- Validación en backend mediante middleware
 
-Feed de actividad
-
-Seguidores
-
-Subida de contenido
-
-Notificaciones
+### Perfiles
+- Un usuario puede crear múltiples perfiles
+- Cada perfil tiene identidad y contexto propios
+- El perfil activo define la interacción dentro de la plataforma
 
 ---
 
-El backend expone una API REST modular y escalable.
+## Roadmap
 
-El frontend utiliza Context API para la gestión de sesión.
+### Completado
+- Base técnica backend y frontend
+- Autenticación y sesión
+- Sistema de perfiles
+- PostgreSQL unificado
+- Arranque automatizado del entorno
+
+### Fase 1 — Seguridad y experiencia base
+- Protección de rutas en el frontend
+- Gestión robusta de sesión
+- Bloqueo de accesos sin token
+- Mostrar nombre e imagen del perfil activo
+- Protección de recursos privados (imágenes y rutas)
+
+### Fases futuras
+- Conexiones entre perfiles
+- Chat en tiempo real (1 a 1 y grupal)
+- Grupos y comunidades
+- Quedadas y eventos presenciales
+- Usuarios de organización
+- Escalado progresivo de funcionalidades sociales
+
+---
+
+## Notas finales
+
+Unyona está diseñada para crecer de forma progresiva, realista y mantenible, priorizando:
+- Relaciones humanas reales
+- Comunidades locales
+- Arquitectura sólida
+- Evolión continua del producto
+
+Este repositorio representa el punto de partida técnico de una plataforma social con enfoque humano y local.

@@ -1,97 +1,71 @@
 @echo off
 title Unyona Launcher
-setlocal enabledelayedexpansion
+setlocal
 
 echo ================================
-echo Iniciando entorno Unyona...
+echo Iniciando entorno Unyona (PostgreSQL + Prisma 5)
 echo ================================
 echo.
 
 :: ------------------------------------------------------------
 :: RUTAS DEL PROYECTO
 :: ------------------------------------------------------------
-set UNYONA_DIR=C:\aplic\unyona
-set FRONTEND_DIR=%UNYONA_DIR%\frontend
+set UNYONA_DIR=C:\Cursos\react\apps\unyona
 set BACKEND_DIR=%UNYONA_DIR%\backend
-set PRISMA_SCHEMA=%BACKEND_DIR%\prisma\schema.prisma
+set FRONTEND_DIR=%UNYONA_DIR%\frontend
 
 :: ------------------------------------------------------------
-:: DETECTAR MOTOR DE BASE DE DATOS
+:: BACKEND
 :: ------------------------------------------------------------
-echo Detectando motor de base de datos...
-
-set DB_PROVIDER=
-set IN_DATASOURCE=0
-
-for /f "usebackq delims=" %%L in ("%PRISMA_SCHEMA%") do (
-
-    :: Detectar inicio del bloque datasource
-    echo %%L | findstr /i "datasource db" >nul
-    if not errorlevel 1 (
-        set IN_DATASOURCE=1
-    )
-
-    :: Detectar fin del bloque datasource
-    echo %%L | findstr /i "}" >nul
-    if not errorlevel 1 (
-        if !IN_DATASOURCE!==1 (
-            set IN_DATASOURCE=0
-        )
-    )
-
-    :: Si estamos dentro del datasource, buscar provider
-    if !IN_DATASOURCE!==1 (
-        echo %%L | findstr /i "provider" >nul
-        if not errorlevel 1 (
-            for /f "tokens=2 delims== " %%A in ("%%L") do (
-                set RAW_PROVIDER=%%A
-            )
-        )
-    )
-)
-
-:: Limpiar comillas y espacios
-set DB_PROVIDER=%RAW_PROVIDER:"=%
-set DB_PROVIDER=%DB_PROVIDER: =%
-
-echo Motor detectado: %DB_PROVIDER%
-echo.
-
-:: ------------------------------------------------------------
-:: PREPARAR BASE DE DATOS SEGUN MOTOR
-:: ------------------------------------------------------------
-
+echo [1/4] Preparando backend...
 cd /d "%BACKEND_DIR%"
 
-if /i "%DB_PROVIDER%"=="sqlite" (
-    echo Usando SQLite...
-    if not exist "dev.db" (
-        echo No existe dev.db, creando base de datos SQLite...
-        call npx prisma db push
-    ) else (
-        echo Base de datos SQLite OK.
-    )
-) else if /i "%DB_PROVIDER%"=="postgresql" (
-    echo Usando PostgreSQL...
-    echo Ejecutando migraciones...
-    call npx prisma migrate deploy
+:: ----------------------------------
+:: Dependencias backend
+:: ----------------------------------
+if not exist "node_modules" (
+    echo Instalando dependencias del backend...
+    call npm install
 ) else (
-    echo ERROR: No se reconoce el motor de base de datos.
-    echo Revisa el archivo schema.prisma
-    pause
-    exit /b
+    echo Dependencias del backend OK.
 )
+
+:: ----------------------------------
+:: Forzar Prisma estable (v5)
+:: ----------------------------------
+echo Verificando version de Prisma...
+
+call npm install prisma@5 @prisma/client@5 --save-dev
+
+:: ----------------------------------
+:: Archivo .env
+:: ----------------------------------
+if not exist ".env" (
+    echo Creando archivo .env desde .env.example...
+    copy ".env.example" ".env" >nul
+) else (
+    echo Archivo .env OK.
+)
+
+:: ----------------------------------
+:: Prisma
+:: ----------------------------------
+echo Generando cliente Prisma...
+call npx prisma generate
+
+echo Ejecutando migraciones Prisma...
+call npx prisma migrate deploy
 
 echo.
 
 :: ------------------------------------------------------------
-:: DEPENDENCIAS FRONTEND
+:: FRONTEND
 :: ------------------------------------------------------------
-echo Comprobando dependencias del frontend...
+echo [2/4] Preparando frontend...
+cd /d "%FRONTEND_DIR%"
 
-if not exist "%FRONTEND_DIR%\node_modules" (
+if not exist "node_modules" (
     echo Instalando dependencias del frontend...
-    cd /d "%FRONTEND_DIR%"
     call npm install
 ) else (
     echo Dependencias del frontend OK.
@@ -100,30 +74,18 @@ if not exist "%FRONTEND_DIR%\node_modules" (
 echo.
 
 :: ------------------------------------------------------------
-:: DEPENDENCIAS BACKEND
+:: ARRANQUE
 :: ------------------------------------------------------------
-echo Comprobando dependencias del backend...
+echo [3/4] Iniciando servicios...
 
-if not exist "%BACKEND_DIR%\node_modules" (
-    echo Instalando dependencias del backend...
-    cd /d "%BACKEND_DIR%"
-    call npm install
-) else (
-    echo Dependencias del backend OK.
-)
-
-echo.
-
-:: ------------------------------------------------------------
-:: INICIAR SERVIDORES
-:: ------------------------------------------------------------
 echo Iniciando Backend...
 start "Unyona Backend" cmd.exe /k "cd /d %BACKEND_DIR% && npm run dev"
 
 echo Iniciando Frontend...
 start "Unyona Frontend" cmd.exe /k "cd /d %FRONTEND_DIR% && npm run dev"
 
+echo.
 echo ================================
-echo Todo listo. Unyona esta en marcha.
+echo [4/4] Unyona listo y en ejecucion
 echo ================================
 pause
