@@ -9,6 +9,13 @@ import {
   actualizarUltimoLogin
 } from "../models/Usuario";
 
+interface AuthRequest extends Request {
+  usuarioId?: string;
+  perfilIndex?: number;
+  esInfantil?: boolean;
+  rol?: string;
+}
+
 /* ============================
    ME → Obtener usuario logueado
    ============================ */

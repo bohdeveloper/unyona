@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-/* Extrae el token / Lo valida / Añade usuarioId a la request */
 interface AuthRequest extends Request {
-  usuarioId?: string;
+  usuarioId?: number;
 }
 
 export const authMiddleware = (
@@ -21,10 +20,15 @@ export const authMiddleware = (
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      usuarioId: string;
+      usuarioId: number;
     };
 
-    req.usuarioId = decoded.usuarioId;
+    req.usuarioId = Number(decoded.usuarioId);
+
+    if (!Number.isInteger(req.usuarioId)) {
+      return res.status(401).json({ message: "Token inválido" });
+    }
+
     next();
   } catch {
     return res.status(401).json({ message: "Token inválido" });

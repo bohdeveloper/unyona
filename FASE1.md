@@ -8,17 +8,17 @@ Objetivo general: estabilidad técnica, seguridad y experiencia base de usuario.
 **Objetivo:** centralizar y robustecer la sesión del usuario.
 
 Tareas:
-- Crear `AuthContext` con:
+- ✅ Crear `AuthContext` con:
   - estado de sesión (token, usuario autenticado)
   - métodos `login`, `logout`, `restoreSession`
-- Inicializar la sesión al cargar la aplicación
-- Validar formato y existencia del token
-- Manejar sesión inválida o expirada
-- Limpiar estado y redirigir al logout cuando sea necesario
+- ✅ Inicializar la sesión al cargar la aplicación
+- ✅ Validar formato y existencia del token
+- ✅ Manejar sesión inválida o expirada
+- ✅ Limpiar estado y redirigir al logout cuando sea necesario
 
 Resultado esperado:
-- Gestión de autenticación centralizada y predecible
-- Persistencia de sesión tras refrescar la página
+- ✅ Gestión de autenticación centralizada y predecible
+- ✅ Persistencia de sesión tras refrescar la página
 
 ---
 

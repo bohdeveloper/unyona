@@ -1,0 +1,10 @@
+.perfil-activo {
+  transform: scale(1.18);
+  box-shadow: 0 0 22px rgba(239, 68, 68, 0.9);
+  z-index: 10;
+}
+
+.perfil-inactivo-wrapper {
+  opacity: 0.35;
+  pointer-events: none;
+}

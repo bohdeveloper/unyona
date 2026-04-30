@@ -2,16 +2,17 @@ import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
 import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
 
 import {
   obtenerPerfilesDeUsuario,
   crearPerfilDeUsuario,
-  actualizarPerfilPorId,
-  eliminarPerfilPorId,
   obtenerPerfilPorId
 } from "../models/Perfil";
 
 import { buscarUsuarioPorId } from "../models/Usuario";
+
+const prisma = new PrismaClient();
 
 interface AuthRequest extends Request {
   usuarioId?: number;
@@ -25,11 +26,6 @@ export const obtenerPerfiles = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.usuarioId) {
       return res.status(401).json({ message: "No autenticado" });
-    }
-
-    const usuario = await buscarUsuarioPorId(req.usuarioId);
-    if (!usuario) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
     const perfiles = await obtenerPerfilesDeUsuario(req.usuarioId);
@@ -79,38 +75,61 @@ export const crearPerfil = async (req: AuthRequest, res: Response) => {
    ACTUALIZAR PERFIL
    ============================ */
 export const actualizarPerfil = async (req: AuthRequest, res: Response) => {
-  const perfilId = Number(req.params.id);
-  const { nombrePerfil, esInfantil } = req.body;
+  console.log("PARAMS:", req.params);
+  
+  const perfilId = Number(req.params.perfilId);
+
+  if (!Number.isInteger(perfilId)) {
+    return res.status(400).json({ message: "ID de perfil inválido" });
+  }
 
   try {
     if (!req.usuarioId) {
       return res.status(401).json({ message: "No autenticado" });
     }
 
-    const perfil = await obtenerPerfilPorId(perfilId);
-
-    if (!perfil || perfil.usuarioId !== req.usuarioId) {
-      return res.status(404).json({ message: "Perfil no encontrado" });
-    }
-
     const data: any = {};
+    const { nombrePerfil, esInfantil } = req.body;
 
     if (nombrePerfil !== undefined) data.nombrePerfil = nombrePerfil;
-    if (esInfantil !== undefined)
+    if (esInfantil !== undefined) {
       data.esInfantil = esInfantil === "true" || esInfantil === true;
+    }
 
     if (req.file) {
-      if (perfil.avatar) {
-        const oldAvatarPath = path.join(__dirname, "..", perfil.avatar);
-        if (fs.existsSync(oldAvatarPath)) fs.unlinkSync(oldAvatarPath);
+      const perfilPrevio = await obtenerPerfilPorId(perfilId);
+
+      if (perfilPrevio?.avatar) {
+        const avatarPath = path.join(
+          process.cwd(),
+          "uploads",
+          "avatars",
+          path.basename(perfilPrevio.avatar)
+        );
+
+        if (fs.existsSync(avatarPath)) {
+          fs.unlinkSync(avatarPath);
+        }
       }
 
       data.avatar = `/uploads/avatars/${req.file.filename}`;
     }
 
-    const perfilActualizado = await actualizarPerfilPorId(perfilId, data);
+    const actualizado = await prisma.perfil.updateMany({
+      where: {
+        id: perfilId,
+        usuarioId: req.usuarioId
+      },
+      data
+    });
 
+    if (actualizado.count === 0) {
+      return res.status(404).json({ message: "Perfil no encontrado" });
+    }
+
+    const perfilActualizado = await obtenerPerfilPorId(perfilId);
     res.json(perfilActualizado);
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al actualizar perfil" });
@@ -121,7 +140,12 @@ export const actualizarPerfil = async (req: AuthRequest, res: Response) => {
    ELIMINAR PERFIL
    ============================ */
 export const eliminarPerfil = async (req: AuthRequest, res: Response) => {
-  const perfilId = Number(req.params.id);
+  
+  const perfilId = Number(req.params.perfilId);
+
+  if (!Number.isInteger(perfilId)) {
+    return res.status(400).json({ message: "ID de perfil inválido" });
+  }
 
   try {
     if (!req.usuarioId) {
@@ -130,19 +154,33 @@ export const eliminarPerfil = async (req: AuthRequest, res: Response) => {
 
     const perfil = await obtenerPerfilPorId(perfilId);
 
-    if (!perfil || perfil.usuarioId !== req.usuarioId) {
+    if (perfil?.avatar) {
+      const avatarPath = path.join(
+        process.cwd(),
+        "uploads",
+        "avatars",
+        path.basename(perfil.avatar)
+      );
+
+      if (fs.existsSync(avatarPath)) {
+        fs.unlinkSync(avatarPath);
+      }
+    }
+
+    const eliminado = await prisma.perfil.deleteMany({
+      where: {
+        id: perfilId,
+        usuarioId: req.usuarioId
+      }
+    });
+
+    if (eliminado.count === 0) {
       return res.status(404).json({ message: "Perfil no encontrado" });
     }
 
-    if (perfil.avatar) {
-      const avatarPath = path.join(__dirname, "..", perfil.avatar);
-      if (fs.existsSync(avatarPath)) fs.unlinkSync(avatarPath);
-    }
-
-    await eliminarPerfilPorId(perfilId);
-
     const perfiles = await obtenerPerfilesDeUsuario(req.usuarioId);
     res.json(perfiles);
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al eliminar perfil" });
@@ -155,7 +193,7 @@ export const eliminarPerfil = async (req: AuthRequest, res: Response) => {
 export const seleccionarPerfil = async (req: AuthRequest, res: Response) => {
   const { perfilId } = req.body;
 
-  if (!perfilId) {
+  if (!Number.isInteger(perfilId)) {
     return res.status(400).json({ message: "ID de perfil requerido" });
   }
 
@@ -164,7 +202,7 @@ export const seleccionarPerfil = async (req: AuthRequest, res: Response) => {
       return res.status(401).json({ message: "No autenticado" });
     }
 
-    const perfil = await obtenerPerfilPorId(Number(perfilId));
+    const perfil = await obtenerPerfilPorId(perfilId);
 
     if (!perfil || perfil.usuarioId !== req.usuarioId) {
       return res.status(404).json({ message: "Perfil no válido" });
