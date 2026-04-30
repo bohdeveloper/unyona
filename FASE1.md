@@ -27,15 +27,15 @@ Resultado esperado:
 **Objetivo:** impedir el acceso a zonas privadas sin autenticación.
 
 Tareas:
-- Crear componente `ProtectedRoute`
-- Integrar `ProtectedRoute` con React Router
-- Redirigir a login si no existe sesión válida
-- Evitar render parcial de vistas protegidas
-- Manejar estados intermedios (loading / checking session)
+- ✅ Crear componente `ProtectedRoute`
+- ✅ Integrar `ProtectedRoute` con React Router
+- ✅ Redirigir a login si no existe sesión válida
+- ✅ Evitar render parcial de vistas protegidas
+- ✅ Manejar estados intermedios (loading / checking session)
 
 Resultado esperado:
-- Ninguna ruta privada accesible sin token
-- Navegación coherente y segura
+- ✅ Ninguna ruta privada accesible sin token
+- ✅ Navegación coherente y segura
 
 ---
 
@@ -44,15 +44,15 @@ Resultado esperado:
 **Objetivo:** definir el contexto de uso de la aplicación.
 
 Tareas:
-- Crear `ProfileContext`
-- Almacenar perfil activo seleccionado
-- Persistir perfil activo (localStorage o backend)
-- Restaurar perfil activo al recargar la aplicación
-- Exponer el perfil activo de forma global
+- ✅ Crear `ProfileContext`
+- ✅Almacenar perfil activo seleccionado
+- ✅ Persistir perfil activo (localStorage o backend)
+- ✅ Restaurar perfil activo al recargar la aplicación
+- ✅ Exponer el perfil activo de forma global
 
 Resultado esperado:
-- Toda la app conoce el perfil activo
-- Base para interacciones entre perfiles
+- ✅ Toda la app conoce el perfil activo
+- ✅ Base para interacciones entre perfiles
 
 ---
 
@@ -61,7 +61,7 @@ Resultado esperado:
 **Objetivo:** mejorar la experiencia de usuario y orientación visual.
 
 Tareas:
-- Mostrar avatar del perfil activo en el sidebar o header
+- ✅ Mostrar avatar del perfil activo en el sidebar o header
 - Mostrar nombre del perfil activo
 - Actualizar UI al cambiar de perfil
 - Manejar correctamente estados sin perfil seleccionado

@@ -4,11 +4,11 @@
 **Objetivo:** estabilidad técnica y experiencia base de usuario.
 
 - Estilo correcto para Unyona + ajustar lo que tengo
-- Protección de rutas en el frontend
-- Implementación de un AuthContext robusto
-- Gestión global del perfil activo
-- Mostrar avatar y nombre del perfil en el sidebar
-- Bloqueo de acceso a la aplicación sin token válido
+- ✅ Protección de rutas en el frontend
+- ✅ Implementación de un AuthContext robusto
+- ✅ Gestión global del perfil activo
+- ✅ Mostrar avatar y nombre del perfil en el sidebar
+- ✅ Bloqueo de acceso a la aplicación sin token válido
 - Protección de imágenes y recursos privados
 
 **Resultado:** aplicación sólida, usable y segura.
