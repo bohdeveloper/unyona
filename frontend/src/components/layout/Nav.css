@@ -5,7 +5,6 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: #ece9e7;
   opacity: 0.9;
   border-bottom: 10px solid #b4f3fc;
 }
@@ -40,7 +39,6 @@ nav-li:hover {
   padding: 7px !important;
   font-size: 1rem !important;
   color: rgb(255, 135, 87) !important;
-  background-color: #fff !important;
 }
 
 .login:hover{

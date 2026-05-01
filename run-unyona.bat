@@ -10,7 +10,7 @@ echo.
 :: ------------------------------------------------------------
 :: RUTAS DEL PROYECTO
 :: ------------------------------------------------------------
-set UNYONA_DIR=C:\Cursos\react\apps\unyona
+set UNYONA_DIR=C:\aplic\unyona
 set BACKEND_DIR=%UNYONA_DIR%\backend
 set FRONTEND_DIR=%UNYONA_DIR%\frontend
 
